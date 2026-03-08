@@ -38,6 +38,24 @@ impl BinarySearchTree {
             
         }
     }
+    
+    pub fn contains(&self, value: i32) -> bool {
+        if self.value == value {
+            return true
+        };
+        
+        if value < self.value {
+            if let Some(left) = &self.left {
+                return left.contains(value);
+            } 
+        } else {
+            if let Some(right) = &self.right {
+                return right.contains(value);
+            }
+        }
+        
+        false
+    }
 }
 
 fn main() {
@@ -50,6 +68,10 @@ fn main() {
     tree.insert(100);
     tree.insert(6);
     tree.insert(4);
+    
+    println!("{}", tree.contains(5));
+    println!("{}", tree.contains(30_000));
+    println!("{}", tree.contains(100));
     
     dbg!(tree);
 }
