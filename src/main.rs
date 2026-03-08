@@ -18,23 +18,24 @@ impl BinarySearchTree {
         if value <= self.value {
             if let Some(node) = &mut self.left {
                 node.insert(value)
+            } else { 
+                self.left = Some(Box::new(BinarySearchTree {
+                    left: None,
+                    right: None,   
+                    value: value
+                }))
             }
-            
-            self.left = Some(Box::new(BinarySearchTree {
-                left: None,
-                right: None,   
-                value: value
-            }))
         } else {
             if let Some(node) = &mut self.right {
                 node.insert(value)
-            } 
+            } else {
+                self.right = Some(Box::new(BinarySearchTree {
+                    left: None,
+                    right: None,   
+                    value: value
+                }))
+            }
             
-            self.right = Some(Box::new(BinarySearchTree {
-                left: None,
-                right: None,   
-                value: value
-            }))
         }
     }
 }
@@ -47,6 +48,8 @@ fn main() {
     tree.insert(12);
     tree.insert(3);
     tree.insert(100);
+    tree.insert(6);
+    tree.insert(4);
     
     dbg!(tree);
 }
