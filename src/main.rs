@@ -17,31 +17,23 @@ impl BinarySearchTree {
     }
 
     pub fn insert(&mut self, value: i32) {
-        if value <= self.value {
-            match &mut self.left {
-                Some(left) => left.insert(value),
-                None => {
-                    self.left = Some(Box::new(BinarySearchTree {
-                        left: None,
-                        right: None,   
-                        value: value
-                    }))
-                }
+        match value.cmp(&self.value) {
+            cmp::Ordering::Equal => (),
+            cmp::Ordering::Greater => {
+                self
+                    .right
+                    .get_or_insert_with(|| Box::new(Self {left: None, right: None, value }))
+                    .insert(value);
             }
-        } else {
-            match &mut self.right {
-                Some(right) => right.insert(value),
-                None => {
-                    self.right = Some(Box::new(BinarySearchTree {
-                        left: None,
-                        right: None,   
-                        value: value
-                    }))
-                }
+            cmp::Ordering::Less => {
+                self
+                    .left
+                    .get_or_insert_with(|| Box::new(Self {left: None, right: None, value }))
+                    .insert(value);
             }
         }
     }
-    
+
     pub fn contains(&self, value: i32) -> bool {
         match value.cmp(&self.value) {
             cmp::Ordering::Equal => true,
@@ -52,14 +44,14 @@ impl BinarySearchTree {
             cmp::Ordering::Less => match &self.left {
                 Some(left) => left.contains(value),
                 None => return false,
-            }
+            },
         }
     }
 }
 
 fn main() {
     let mut tree = BinarySearchTree::with_root(10);
-    
+
     tree.insert(5);
     tree.insert(12);
     tree.insert(12);
@@ -67,10 +59,10 @@ fn main() {
     tree.insert(100);
     tree.insert(6);
     tree.insert(4);
-    
+
     println!("{}", tree.contains(5));
     println!("{}", tree.contains(30_000));
     println!("{}", tree.contains(100));
-    
+
     dbg!(tree);
 }
