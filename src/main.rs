@@ -1,3 +1,5 @@
+use std::cmp;
+
 #[derive(Debug)]
 struct BinarySearchTree {
     value: i32,
@@ -40,21 +42,17 @@ impl BinarySearchTree {
     }
     
     pub fn contains(&self, value: i32) -> bool {
-        if self.value == value {
-            return true
-        };
-        
-        if value < self.value {
-            if let Some(left) = &self.left {
-                return left.contains(value);
-            } 
-        } else {
-            if let Some(right) = &self.right {
-                return right.contains(value);
+        match value.cmp(&self.value) {
+            cmp::Ordering::Equal => true,
+            cmp::Ordering::Greater => match &self.right {
+                Some(right) => right.contains(value),
+                None => return false,
+            },
+            cmp::Ordering::Less => match &self.left {
+                Some(left) => left.contains(value),
+                None => return false,
             }
         }
-        
-        false
     }
 }
 
