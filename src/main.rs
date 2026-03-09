@@ -39,11 +39,11 @@ impl BinarySearchTree {
             cmp::Ordering::Equal => true,
             cmp::Ordering::Greater => match &self.right {
                 Some(right) => right.contains(value),
-                None => return false,
+                None => false,
             },
             cmp::Ordering::Less => match &self.left {
                 Some(left) => left.contains(value),
-                None => return false,
+                None => false,
             },
         }
     }
