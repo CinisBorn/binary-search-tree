@@ -65,6 +65,14 @@ impl BinarySearchTree {
             Some(self.value)
         }
     }
+    
+    pub fn find_min(&self) -> Option<i32> {
+        if let Some(left) = &self.left {
+            left.find_min() 
+        } else {
+            Some(self.value)
+        }
+    }
 }
 
 fn main() {
@@ -80,6 +88,7 @@ fn main() {
     println!("{}", tree.contains(100));
     
     println!("Max: {}", tree.find_max().unwrap());
-
+    println!("Min: {}", tree.find_min().unwrap());
+    
     dbg!(tree);
 }
