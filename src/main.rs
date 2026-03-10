@@ -59,14 +59,10 @@ impl BinarySearchTree {
     }
     
     pub fn find_max(&self) -> Option<i32> {
-        if self.right.is_none() && self.left.is_none() {
-           Some(self.value)
+        if let Some(right) = &self.right {
+            right.find_max() 
         } else {
-            if let Some(right) = &self.right {
-                right.find_max()
-            } else {
-                Some(self.value)
-            }
+            Some(self.value)
         }
     }
 }
@@ -76,10 +72,8 @@ fn main() {
 
     tree.insert(5);
     tree.insert(12);
-    tree.insert(12);
-    tree.insert(3);
-    tree.insert(6);
-    tree.insert(4);
+    tree.insert(12); // ignored
+    tree.insert(13);
 
     println!("{}", tree.contains(5));
     println!("{}", tree.contains(30_000));
