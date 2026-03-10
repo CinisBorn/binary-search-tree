@@ -20,15 +20,25 @@ impl BinarySearchTree {
         match value.cmp(&self.value) {
             cmp::Ordering::Equal => (),
             cmp::Ordering::Greater => {
-                self
-                    .right
-                    .get_or_insert_with(|| Box::new(Self {left: None, right: None, value }))
+                self.right
+                    .get_or_insert_with(|| {
+                        Box::new(Self {
+                            left: None,
+                            right: None,
+                            value,
+                        })
+                    })
                     .insert(value);
             }
             cmp::Ordering::Less => {
-                self
-                    .left
-                    .get_or_insert_with(|| Box::new(Self {left: None, right: None, value }))
+                self.left
+                    .get_or_insert_with(|| {
+                        Box::new(Self {
+                            left: None,
+                            right: None,
+                            value,
+                        })
+                    })
                     .insert(value);
             }
         }
