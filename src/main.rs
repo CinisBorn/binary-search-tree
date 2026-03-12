@@ -1,5 +1,7 @@
 use std::cmp;
 
+/// A binary search implementation where the`value` is `i32`
+/// by design. It could also be a generic type. 
 #[derive(Debug)]
 struct BinarySearchTree {
     value: i32,
@@ -8,6 +10,7 @@ struct BinarySearchTree {
 }
 
 impl BinarySearchTree {
+    /// Creates a new binary search tree with the specified root. 
     pub fn with_root(root: i32) -> Self {
         Self {
             value: root,
@@ -15,7 +18,10 @@ impl BinarySearchTree {
             right: None,
         }
     }
+    /// Inserts a new node in the tree. The exact position depends on the value
+    /// itself. See more in: 
 
+    /// [Binary Search Tree](https://en.wikipedia.org/wiki/Binary_search_tree)
     pub fn insert(&mut self, value: i32) {
         match value.cmp(&self.value) {
             cmp::Ordering::Equal => (),
@@ -43,7 +49,8 @@ impl BinarySearchTree {
             }
         }
     }
-
+    
+    /// Checks if a value exists. 
     pub fn contains(&self, value: i32) -> bool {
         match value.cmp(&self.value) {
             cmp::Ordering::Equal => true,
@@ -58,6 +65,7 @@ impl BinarySearchTree {
         }
     }
     
+    /// Gets the maximum value in the tree. It has a complexity of *O(h)*
     pub fn find_max(&self) -> Option<i32> {
         if let Some(right) = &self.right {
             right.find_max() 
@@ -65,7 +73,7 @@ impl BinarySearchTree {
             Some(self.value)
         }
     }
-    
+    /// Gets the minimum value in the tree. It has a complexity of *O(h)*
     pub fn find_min(&self) -> Option<i32> {
         if let Some(left) = &self.left {
             left.find_min() 
