@@ -48,18 +48,19 @@ impl<T: Ord + Clone> Node<T> {
             std::cmp::Ordering::Greater => Self::remove(&mut node_val.right, value),
             std::cmp::Ordering::Less => Self::remove(&mut node_val.left, value), 
             std::cmp::Ordering::Equal => {
-                if node_val.left.is_some() && node_val.right.is_some() {
-                    let sucessor = Self::find_min(&node_val.right).unwrap();
-                    
-                    node_val.element = sucessor.clone();
-                    Self::remove(&mut node_val.right, sucessor);
-                } else if node_val.left.is_some() && node_val.right.is_none() {
-                    let child = node_val.left.take();
-                    *node = child
-                } else  {
-                    let child = node_val.right.take();
-                    *node = child
-                } 
+                let right = node_val.right.is_some();
+                let left  = node_val.left.is_some();
+                
+                match (left, right) {
+                    (true, true) => {
+                        let sucessor = Self::find_min(&node_val.right).unwrap();
+                        
+                        node_val.element = sucessor.clone();
+                        Self::remove(&mut node_val.right, sucessor);
+                    },
+                    (false, true) => *node = node_val.right.take(),
+                    _ => *node = node_val.left.take(),
+                }
                 
                 Some(removed)
             },
