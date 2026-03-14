@@ -12,6 +12,9 @@ fn main() {
     println!("Min {}", tree.find_min().unwrap());
     println!("Max {}", tree.find_max().unwrap());
     println!("Remove {:?}", tree.remove(1310));
+    
+    println!("Contain: {}", tree.contains(10));
+    println!("Contains: {}", tree.contains(10_000));
    
     dbg!(tree);    
 }

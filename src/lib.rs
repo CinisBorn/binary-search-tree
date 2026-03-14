@@ -40,6 +40,19 @@ impl<T: Ord + Clone> Node<T> {
         }
     }
     
+    fn contains(node: &Option<Box<Node<T>>>, element: T) -> bool {
+        match node {
+            Some(n) => {
+                match element.cmp(&n.element) {
+                    std::cmp::Ordering::Equal => true,
+                    std::cmp::Ordering::Greater => Self::contains(&n.right, element),
+                    std::cmp::Ordering::Less => Self::contains(&n.left, element)
+                }
+            },
+            None => false
+        }
+    }
+    
     fn remove(node: &mut Option<Box<Node<T>>>, value: T) -> Option<T> {
         let node_val = node.as_mut()?;
         let removed = node_val.element.clone();
@@ -92,5 +105,9 @@ impl<T: Ord + Clone> BST<T> {
     
     pub fn remove(&mut self, value: T) -> Option<T> {
         Node::remove(&mut self.root, value)
+    }
+    
+    pub fn contains(&self, element: T) -> bool {
+        Node::contains(&self.root, element)
     }
 }
