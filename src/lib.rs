@@ -53,9 +53,8 @@ impl<T: Ord + Clone> Node<T> {
         }
     }
     
-    fn remove(node: &mut Option<Box<Node<T>>>, value: T) -> Option<T> {
-        let node_val = node.as_mut()?;
-        let removed = node_val.element.clone();
+    fn remove(node: &mut Option<Box<Node<T>>>, value: T) {
+        let node_val = node.as_mut().unwrap();
         
         match value.cmp(&node_val.element) {
             std::cmp::Ordering::Greater => Self::remove(&mut node_val.right, value),
@@ -74,8 +73,6 @@ impl<T: Ord + Clone> Node<T> {
                     (false, true) => *node = node_val.right.take(),
                     _ => *node = node_val.left.take(),
                 }
-                
-                Some(removed)
             },
         }
     }
@@ -103,7 +100,7 @@ impl<T: Ord + Clone> BST<T> {
         Node::find_max(&self.root)
     }
     
-    pub fn remove(&mut self, value: T) -> Option<T> {
+    pub fn remove(&mut self, value: T) {
         Node::remove(&mut self.root, value)
     }
     
